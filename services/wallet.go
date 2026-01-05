@@ -25,11 +25,15 @@ var (
 	currentNonce *uint64
 )
 
-func init() {
+func InitWallet() {
 	var err error
 
 	// Connect to RPC
 	rpcURL := os.Getenv("RPC_URL")
+	if rpcURL == "" {
+		log.Fatal("RPC_URL not set")
+	}
+
 	client, err = ethclient.Dial(rpcURL)
 	if err != nil {
 		log.Fatalf("Failed to connect to Ethereum client: %v", err)

@@ -8,6 +8,7 @@ import (
 	"faucet-backend/database"
 	"faucet-backend/handlers"
 	"faucet-backend/middleware"
+	"faucet-backend/services"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -20,6 +21,9 @@ func main() {
 	if os.Getenv("RAILWAY_ENVIRONMENT") == "" {
 		godotenv.Load()
 	}
+
+	// Initialize wallet (Ethereum client)
+	services.InitWallet()
 
 	// Initialize database
 	database.Connect()
