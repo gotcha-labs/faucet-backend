@@ -17,22 +17,24 @@ import (
 )
 
 func main() {
+	log.Println("🚀 Starting faucet-backend...")
+
 	// Load .env in development
 	if os.Getenv("RAILWAY_ENVIRONMENT") == "" {
 		godotenv.Load()
 	}
 
-	// Initialize wallet (Ethereum client)
+	log.Println("📡 Initializing Ethereum wallet...")
 	services.InitWallet()
 
-	// Initialize database
+	log.Println("🗄️ Connecting to PostgreSQL...")
 	database.Connect()
 	database.Migrate()
 
-	// Initialize Redis
+	log.Println("📦 Connecting to Redis...")
 	database.ConnectRedis()
 
-	// Seed default tokens
+	log.Println("🌱 Seeding tokens...")
 	config.SeedTokens()
 
 	// Create Fiber app
