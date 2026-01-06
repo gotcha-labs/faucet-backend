@@ -1,5 +1,0 @@
-[phases.build]
-cmds = ["go build -o faucet-backend ."]
-
-[start]
-cmd = "./faucet-backend"
