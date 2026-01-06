@@ -1,9 +1,6 @@
 # Build stage
 FROM golang:1.21-alpine AS builder
 
-# Install build dependencies for go-ethereum (CGO)
-RUN apk add --no-cache gcc musl-dev linux-headers
-
 WORKDIR /app
 
 # Copy go mod files
@@ -13,8 +10,8 @@ RUN go mod download
 # Copy source code
 COPY . .
 
-# Build with CGO enabled
-RUN CGO_ENABLED=1 GOOS=linux go build -o faucet-backend .
+# Build static binary (no CGO)
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o faucet-backend .
 
 # Runtime stage
 FROM alpine:latest
