@@ -78,6 +78,6 @@ func main() {
 		port = "3000"
 	}
 
-	log.Printf("🚀 Multi-token faucet backend starting on port %s", port)
-	log.Fatal(app.Listen(":" + port))
+	log.Printf("🚀 Multi-token faucet backend starting on 0.0.0.0:%s", port)
+	log.Fatal(app.Listen("0.0.0.0:" + port))
 }
