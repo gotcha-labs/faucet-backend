@@ -26,5 +26,5 @@ COPY --from=builder /app/faucet-backend .
 # Expose port
 EXPOSE 3000
 
-# Run
-CMD ["./faucet-backend"]
+# Run with shell to see output
+CMD echo "Container starting..." && ls -la && echo "Running binary..." && ./faucet-backend
