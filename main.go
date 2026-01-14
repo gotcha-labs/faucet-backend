@@ -17,12 +17,26 @@ import (
 )
 
 func main() {
+	// Force unbuffered output for Railway logs
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	log.SetOutput(os.Stdout)
+
 	log.Println("🚀 Starting faucet-backend...")
 
 	// Load .env in development
 	if os.Getenv("RAILWAY_ENVIRONMENT") == "" {
 		godotenv.Load()
 	}
+
+	// Check required env vars upfront
+	required := []string{"RPC_URL", "FAUCET_PRIVATE_KEY", "DATABASE_URL", "REDIS_URL"}
+	for _, env := range required {
+		if os.Getenv(env) == "" {
+			log.Printf("❌ FATAL: Required environment variable %s is not set", env)
+			os.Exit(1)
+		}
+	}
+	log.Println("✅ All required environment variables present")
 
 	log.Println("📡 Initializing Ethereum wallet...")
 	services.InitWallet()
