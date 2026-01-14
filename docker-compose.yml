@@ -1,0 +1,35 @@
+services:
+  faucet-backend:
+    build: .
+    ports:
+      - "${PORT:-3000}:${PORT:-3000}"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/faucet
+      - REDIS_URL=redis://redis:6379
+      - PORT=${PORT:-3000}
+      - RPC_URL=${RPC_URL}
+      - FAUCET_PRIVATE_KEY=${FAUCET_PRIVATE_KEY}
+      - GOTCHA_SECRET_KEY=${GOTCHA_SECRET_KEY}
+      - GOTCHA_VERIFY_URL=${GOTCHA_VERIFY_URL}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: faucet
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
